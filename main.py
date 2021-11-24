@@ -60,3 +60,14 @@ def post_delete(post_id: str):
             posts.pop(index)
             return {'message':'Post has delete successfully'}
     raise HTTPException(status_code= 404, detail= 'Post Not Found')
+
+
+@app.put('/post/{post_id}')
+def update_post(post_id: str, updated_post:Post):
+    for index, post in enumerate(posts):
+        if post['id'] == post_id:
+            posts[index]['title'] = updated_post.title
+            posts[index]['content'] = updated_post.content
+            posts[index]['author'] = updated_post.author
+            return {'message':'Post has delete successfully'}
+    raise HTTPException(status_code= 404, detail= 'Post Not Found')
