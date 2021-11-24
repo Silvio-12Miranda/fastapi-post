@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 
 # FastAPI
-from fastapi import FastAPI
+from fastapi import FastAPI,HTTPException
 
 
 app = FastAPI()
@@ -40,3 +40,13 @@ def save_posts(post:Post):
     posts.append(post.dict())
     #print(post.dict())
     return posts[-1]
+
+
+@app.get('/posts/{post_id}')
+def get_post(post_id: str):
+    #print(post_id)
+    for post in posts:
+        if post['id'] == post_id:
+            return post
+    raise HTTPException(status_code= 404, detail= 'Post Not Found')
+
